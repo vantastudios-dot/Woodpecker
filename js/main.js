@@ -268,11 +268,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     pageBookingForm.reset();
                 }
                 else {
-                    showToast('Error sending booking request. Please try again.', true);
+                    const data = yield res.json().catch(() => ({}));
+                    const errMsg = data.error || `HTTP Error: ${res.status}`;
+                    showToast(`Error: ${errMsg}`, true);
                 }
             }
             catch (err) {
-                showToast('Error sending booking request. Please try again.', true);
+                showToast(`Error: ${err.message || 'Connection failed'}`, true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -311,11 +313,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         resModal.style.display = 'none';
                 }
                 else {
-                    showToast('Error sending booking request. Please try again.', true);
+                    const data = yield res.json().catch(() => ({}));
+                    const errMsg = data.error || `HTTP Error: ${res.status}`;
+                    showToast(`Error: ${errMsg}`, true);
                 }
             }
             catch (err) {
-                showToast('Error sending booking request. Please try again.', true);
+                showToast(`Error: ${err.message || 'Connection failed'}`, true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -355,11 +359,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     newsletterForm.reset();
                 }
                 else {
-                    showToast('Error subscribing to newsletter. Please try again.', true);
+                    const data = yield res.json().catch(() => ({}));
+                    const errMsg = data.error || `HTTP Error: ${res.status}`;
+                    showToast(`Error: ${errMsg}`, true);
                 }
             }
             catch (err) {
-                showToast('Error subscribing to newsletter. Please try again.', true);
+                showToast(`Error: ${err.message || 'Connection failed'}`, true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;

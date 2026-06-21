@@ -274,10 +274,12 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast('Table reserved successfully! We will contact you soon.');
           pageBookingForm.reset();
         } else {
-          showToast('Error sending booking request. Please try again.', true);
+          const data = await res.json().catch(() => ({}));
+          const errMsg = data.error || `HTTP Error: ${res.status}`;
+          showToast(`Error: ${errMsg}`, true);
         }
-      } catch (err) {
-        showToast('Error sending booking request. Please try again.', true);
+      } catch (err: any) {
+        showToast(`Error: ${err.message || 'Connection failed'}`, true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
     });
@@ -310,10 +312,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const resModal = document.getElementById('reservation-modal');
           if (resModal) resModal.style.display = 'none';
         } else {
-          showToast('Error sending booking request. Please try again.', true);
+          const data = await res.json().catch(() => ({}));
+          const errMsg = data.error || `HTTP Error: ${res.status}`;
+          showToast(`Error: ${errMsg}`, true);
         }
-      } catch (err) {
-        showToast('Error sending booking request. Please try again.', true);
+      } catch (err: any) {
+        showToast(`Error: ${err.message || 'Connection failed'}`, true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
     });
@@ -349,10 +353,12 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast('Successfully subscribed to our newsletter!');
           newsletterForm.reset();
         } else {
-          showToast('Error subscribing to newsletter. Please try again.', true);
+          const data = await res.json().catch(() => ({}));
+          const errMsg = data.error || `HTTP Error: ${res.status}`;
+          showToast(`Error: ${errMsg}`, true);
         }
-      } catch (err) {
-        showToast('Error subscribing to newsletter. Please try again.', true);
+      } catch (err: any) {
+        showToast(`Error: ${err.message || 'Connection failed'}`, true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Subscribe'; }
     });
