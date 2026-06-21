@@ -201,13 +201,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!form)
             return;
         form.addEventListener('submit', (e) => __awaiter(this, void 0, void 0, function* () {
-            var _a, _b, _c, _d, _e;
+            var _a, _b, _c, _d, _e, _f, _g;
             e.preventDefault();
             const guestName = ((_a = document.getElementById('booking-name')) === null || _a === void 0 ? void 0 : _a.value) || 'Guest';
             const email = ((_b = document.getElementById('booking-email')) === null || _b === void 0 ? void 0 : _b.value) || '';
             const phone = ((_c = document.getElementById('booking-phone')) === null || _c === void 0 ? void 0 : _c.value) || '';
             const guestCount = ((_d = document.getElementById('booking-guests')) === null || _d === void 0 ? void 0 : _d.value) || '2';
             const bookingDate = ((_e = document.getElementById('booking-date')) === null || _e === void 0 ? void 0 : _e.value) || 'today';
+            const bookingTime = ((_f = document.getElementById('booking-time')) === null || _f === void 0 ? void 0 : _f.value) || '19:00';
+            const bookingRemarks = ((_g = document.getElementById('booking-remarks')) === null || _g === void 0 ? void 0 : _g.value) || 'None';
             if (!reservationModalBody)
                 return;
             reservationModalBody.innerHTML = `
@@ -220,7 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = yield fetch('/api/bookings', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: guestName, email, phone, guests: guestCount, date: bookingDate })
+                    body: JSON.stringify({
+                        name: guestName,
+                        email,
+                        phone,
+                        guests: guestCount,
+                        date: bookingDate,
+                        time: bookingTime,
+                        remarks: bookingRemarks
+                    })
                 });
                 const result = yield response.json();
                 // Trigger Google Analytics Event

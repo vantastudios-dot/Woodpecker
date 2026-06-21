@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { name, phone, date, guests } = req.body;
+  const { name, phone, date, time, guests, remarks } = req.body;
   const email = req.body.email || 'customer@example.com';
   const bookingId = generateBookingId();
   
@@ -71,14 +71,16 @@ module.exports = async (req, res) => {
       fromEmail,
       ownerEmail,
       `New Table Booking - ${name}`,
-      `New table reservation:\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nDate: ${date}\nParty Size: ${guests}\nConfirmation #: ${bookingId}`,
+      `New table reservation:\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nDate: ${date}\nTime: ${time}\nParty Size: ${guests}\nRemarks: ${remarks || 'None'}\nConfirmation #: ${bookingId}`,
       `
         <h2 style="color: #c8974a; margin-top: 0;">NEW BOOKING - ACTION REQUIRED</h2>
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Phone:</strong> ${phone}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Time:</strong> ${time}</p>
         <p><strong>Party Size:</strong> ${guests}</p>
+        <p><strong>Remarks:</strong> ${remarks || 'None'}</p>
         <p><strong>Confirmation #:</strong> ${bookingId}</p>
       `
     );
@@ -88,14 +90,15 @@ module.exports = async (req, res) => {
       fromEmail,
       ownerEmail,
       `Your Table Booking Confirmed ✓`,
-      `Hi ${name},\nYour table is reserved!\nDate: ${date}\nParty Size: ${guests} people\nLocation: Woodpecker Bar, Hazratganj, Lucknow\nPhone: +91 99364 38000\nConfirmation #: ${bookingId}\nSee you soon!`,
+      `Hi ${name},\nYour table is reserved!\nDate: ${date}\nTime: ${time}\nParty Size: ${guests} people\nLocation: Woodpecker Bar, Hazratganj, Lucknow\nPhone: +91 99364 38000\nConfirmation #: ${bookingId}\nSee you soon!`,
       `
         <h2 style="color: #c8974a; margin-top: 0; text-align: center;">YOUR TABLE IS RESERVED ✓</h2>
         <p>Hi <strong>${name}</strong>,</p>
         <p>Thank you for choosing Woodpecker! Your table reservation is confirmed.</p>
         <div style="background-color: #fbf8f1; border-left: 4px solid #c8974a; padding: 15px; margin: 20px 0;">
-          <p style="margin: 5px 0;">📅 <strong>Date:</strong> ${date}</p>
+          <p style="margin: 5px 0;">📅 <strong>Date:</strong> ${date} at ${time}</p>
           <p style="margin: 5px 0;">👥 <strong>Party Size:</strong> ${guests} people</p>
+          <p style="margin: 5px 0;">📝 <strong>Special Requests:</strong> ${remarks || 'None'}</p>
           <p style="margin: 5px 0;">📍 <strong>Location:</strong> Woodpecker Bar, Hazratganj, Lucknow</p>
           <p style="margin: 5px 0;">📞 <strong>Call us:</strong> +91 99364 38000</p>
         </div>

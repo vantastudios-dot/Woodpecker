@@ -207,6 +207,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const phone = (document.getElementById('booking-phone') as HTMLInputElement | null)?.value || '';
       const guestCount = (document.getElementById('booking-guests') as HTMLInputElement | null)?.value || '2';
       const bookingDate = (document.getElementById('booking-date') as HTMLInputElement | null)?.value || 'today';
+      const bookingTime = (document.getElementById('booking-time') as HTMLInputElement | null)?.value || '19:00';
+      const bookingRemarks = (document.getElementById('booking-remarks') as HTMLTextAreaElement | null)?.value || 'None';
 
       if (!reservationModalBody) return;
       reservationModalBody.innerHTML = `
@@ -220,7 +222,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const response = await fetch('/api/bookings', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: guestName, email, phone, guests: guestCount, date: bookingDate })
+          body: JSON.stringify({ 
+            name: guestName, 
+            email, 
+            phone, 
+            guests: guestCount, 
+            date: bookingDate,
+            time: bookingTime,
+            remarks: bookingRemarks
+          })
         });
         const result = await response.json();
 
