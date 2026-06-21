@@ -1807,3 +1807,11 @@ footer {
   font-size: 15px;
   font-weight: 500;
 }
+
+.toast.error {
+  border-left-color: #ff6b6b;
+}
+
+.toast.error .toast-icon {
+  color: #ff6b6b;
+}

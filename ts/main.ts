@@ -218,11 +218,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // ----- Form Submissions & Toast -----
   const toast = document.getElementById('toast');
   const toastMsg = document.getElementById('toast-msg');
+  const toastIcon = document.getElementById('toast-icon');
   let toastTimeout: any;
 
-  function showToast(message: string) {
-    if (!toast || !toastMsg) return;
+  function showToast(message: string, isError = false) {
+    if (!toast || !toastMsg || !toastIcon) return;
     toastMsg.textContent = message;
+    
+    if (isError) {
+      toast.classList.add('error');
+      toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+    } else {
+      toast.classList.remove('error');
+      toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+    }
+
     toast.classList.add('show');
     clearTimeout(toastTimeout);
     toastTimeout = setTimeout(() => {
@@ -264,10 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast('Table reserved successfully! We will contact you soon.');
           pageBookingForm.reset();
         } else {
-          showToast('Error sending booking request. Please try again.');
+          showToast('Error sending booking request. Please try again.', true);
         }
       } catch (err) {
-        showToast('Error sending booking request. Please try again.');
+        showToast('Error sending booking request. Please try again.', true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
     });
@@ -300,10 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const resModal = document.getElementById('reservation-modal');
           if (resModal) resModal.style.display = 'none';
         } else {
-          showToast('Error sending booking request. Please try again.');
+          showToast('Error sending booking request. Please try again.', true);
         }
       } catch (err) {
-        showToast('Error sending booking request. Please try again.');
+        showToast('Error sending booking request. Please try again.', true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
     });
@@ -339,10 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
           showToast('Successfully subscribed to our newsletter!');
           newsletterForm.reset();
         } else {
-          showToast('Error subscribing to newsletter. Please try again.');
+          showToast('Error subscribing to newsletter. Please try again.', true);
         }
       } catch (err) {
-        showToast('Error subscribing to newsletter. Please try again.');
+        showToast('Error subscribing to newsletter. Please try again.', true);
       }
       if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Subscribe'; }
     });

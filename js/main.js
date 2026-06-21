@@ -211,11 +211,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----- Form Submissions & Toast -----
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-msg');
+    const toastIcon = document.getElementById('toast-icon');
     let toastTimeout;
-    function showToast(message) {
-        if (!toast || !toastMsg)
+    function showToast(message, isError = false) {
+        if (!toast || !toastMsg || !toastIcon)
             return;
         toastMsg.textContent = message;
+        if (isError) {
+            toast.classList.add('error');
+            toastIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+        }
+        else {
+            toast.classList.remove('error');
+            toastIcon.innerHTML = '<i class="fa-solid fa-check"></i>';
+        }
         toast.classList.add('show');
         clearTimeout(toastTimeout);
         toastTimeout = setTimeout(() => {
@@ -259,11 +268,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     pageBookingForm.reset();
                 }
                 else {
-                    showToast('Error sending booking request. Please try again.');
+                    showToast('Error sending booking request. Please try again.', true);
                 }
             }
             catch (err) {
-                showToast('Error sending booking request. Please try again.');
+                showToast('Error sending booking request. Please try again.', true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -302,11 +311,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         resModal.style.display = 'none';
                 }
                 else {
-                    showToast('Error sending booking request. Please try again.');
+                    showToast('Error sending booking request. Please try again.', true);
                 }
             }
             catch (err) {
-                showToast('Error sending booking request. Please try again.');
+                showToast('Error sending booking request. Please try again.', true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
@@ -346,11 +355,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     newsletterForm.reset();
                 }
                 else {
-                    showToast('Error subscribing to newsletter. Please try again.');
+                    showToast('Error subscribing to newsletter. Please try again.', true);
                 }
             }
             catch (err) {
-                showToast('Error subscribing to newsletter. Please try again.');
+                showToast('Error subscribing to newsletter. Please try again.', true);
             }
             if (submitBtn) {
                 submitBtn.disabled = false;
