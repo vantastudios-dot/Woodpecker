@@ -648,16 +648,16 @@
             Don't wait to indulge in the visual and culinary magic of Woodpecker - book your table now and let the feast begin!
           </p>
           <form id="page-booking-form" style="display: flex; flex-direction: column; gap: 20px;">
-            <div style="display: flex; gap: 20px;">
+            <div class="responsive-flex-row">
               <input type="text" id="page-booking-name" placeholder="Name" required style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
               <input type="email" id="page-booking-email" placeholder="Email" required style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
             </div>
-            <div style="display: flex; gap: 20px;">
+            <div class="responsive-flex-row">
               <input type="tel" id="page-booking-phone" placeholder="Phone" required style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
               <input type="date" id="page-booking-date" required style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
             </div>
             <input type="time" id="page-booking-time" placeholder="Time" required style="padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif; width: 100%;">
-            <div style="display: flex; gap: 20px;">
+            <div class="responsive-flex-row">
               <input type="number" id="page-booking-male" placeholder="Male" min="0" style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
               <input type="number" id="page-booking-female" placeholder="Female" min="0" style="flex: 1; padding: 15px; border: none; background: #fff; color: #333; font-family: 'Josefin Sans', sans-serif;">
             </div>
@@ -706,7 +706,7 @@
           <span class="section-tag" style="letter-spacing: 2px; font-size: 12px; text-transform: uppercase; border-top: 1px solid #c8974a; border-bottom: 1px solid #c8974a; padding: 3px 0; color: #333; font-weight: 600;">MAIL US</span>
           <h2 style="font-size: 32px; font-family: 'Cormorant Infant', serif; color: #333; margin: 15px 0 25px;">Have a Question?</h2>
           <form id="contact-form" style="display: flex; flex-direction: column; gap: 20px;">
-            <div style="display: flex; gap: 20px;">
+            <div class="responsive-flex-row">
               <input type="text" placeholder="Name" required style="flex: 1; padding: 15px; border: 1px solid #ccc; font-family: 'Josefin Sans', sans-serif;">
               <input type="email" placeholder="Email" required style="flex: 1; padding: 15px; border: 1px solid #ccc; font-family: 'Josefin Sans', sans-serif;">
             </div>
@@ -745,12 +745,12 @@
         </div>
 
         <!-- Center: Logo & Subscribe -->
-        <div style="text-align: center; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); padding: 0 40px;">
-          <div style="border: 2px solid #fff; display: inline-block; padding: 15px 30px; margin-bottom: 30px;">
-            <h1 style="font-family: 'Josefin Sans', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: 2px; margin: 0;">WOODPECKER</h1>
+        <div class="footer-center-col" style="text-align: center; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); padding: 0 40px;">
+          <div class="footer-logo-box" style="border: 2px solid #fff; display: inline-block; padding: 15px 30px; margin-bottom: 30px;">
+            <h1 class="footer-logo-text" style="font-family: 'Josefin Sans', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: 2px; margin: 0;">WOODPECKER</h1>
           </div>
           <p style="color: #fff; font-size: 16px; margin-bottom: 25px; line-height: 1.6;">Join our mailing list for updates,<br>Get news & offers events.</p>
-          <form class="subscribe-form" id="newsletter-form" style="display: flex;">
+          <form class="subscribe-form footer-subscribe-form" id="newsletter-form" style="display: flex;">
             <input type="email" placeholder="Enter Your Email" required style="flex: 1; padding: 15px; background: transparent; border: 1px solid #fff; border-right: none; color: #fff; font-family: 'Josefin Sans', sans-serif;">
             <button type="submit" style="padding: 15px 25px; background: #fff; color: #333; border: 1px solid #fff; font-family: 'Josefin Sans', sans-serif; font-weight: 600; cursor: pointer;">Subscribe</button>
           </form>
@@ -769,11 +769,11 @@
       </div>
       
       <!-- Footer Bottom -->
-      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; justify-content: space-between; font-size: 13px; color: #ccc;">
+      <div class="footer-bottom">
         <p>Copyright © 2026 Woodpecker | All Rights Reserved</p>
-        <div>
-          <a href="#" style="color: #ccc; margin-right: 15px; text-decoration: none;">Terms & Conditions</a>
-          <a href="#" style="color: #ccc; text-decoration: none;">Privacy Policy</a>
+        <div class="footer-bottom-links">
+          <a href="#">Terms & Conditions</a>
+          <a href="#">Privacy Policy</a>
         </div>
       </div>
     </div>

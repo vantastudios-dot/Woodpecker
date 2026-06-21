@@ -1815,3 +1815,45 @@ footer {
 .toast.error .toast-icon {
   color: #ff6b6b;
 }
+
+/* Custom Responsive Overrides for Inline Styles */
+.responsive-flex-row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  .responsive-flex-row {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  
+  .footer-center-col {
+    padding: 0 15px !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  
+  .footer-logo-box {
+    padding: 10px 20px !important;
+  }
+  
+  .footer-logo-text {
+    font-size: 24px !important;
+    letter-spacing: 1px !important;
+  }
+  
+  .footer-subscribe-form {
+    flex-direction: column !important;
+  }
+  
+  .footer-subscribe-form input {
+    border-right: 1px solid #fff !important;
+    border-bottom: none !important;
+  }
+}
