@@ -203,6 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
         form.addEventListener('submit', (e) => __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e;
             e.preventDefault();
+            const guestName = ((_a = document.getElementById('booking-name')) === null || _a === void 0 ? void 0 : _a.value) || 'Guest';
+            const email = ((_b = document.getElementById('booking-email')) === null || _b === void 0 ? void 0 : _b.value) || '';
+            const phone = ((_c = document.getElementById('booking-phone')) === null || _c === void 0 ? void 0 : _c.value) || '';
+            const guestCount = ((_d = document.getElementById('booking-guests')) === null || _d === void 0 ? void 0 : _d.value) || '2';
+            const bookingDate = ((_e = document.getElementById('booking-date')) === null || _e === void 0 ? void 0 : _e.value) || 'today';
             if (!reservationModalBody)
                 return;
             reservationModalBody.innerHTML = `
@@ -211,11 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4>Securing your table...</h4>
           <p>Please wait a moment.</p>
         </div>`;
-            const guestName = ((_a = document.getElementById('booking-name')) === null || _a === void 0 ? void 0 : _a.value) || 'Guest';
-            const email = ((_b = document.getElementById('booking-email')) === null || _b === void 0 ? void 0 : _b.value) || '';
-            const phone = ((_c = document.getElementById('booking-phone')) === null || _c === void 0 ? void 0 : _c.value) || '';
-            const guestCount = ((_d = document.getElementById('booking-guests')) === null || _d === void 0 ? void 0 : _d.value) || '2';
-            const bookingDate = ((_e = document.getElementById('booking-date')) === null || _e === void 0 ? void 0 : _e.value) || 'today';
             try {
                 const response = yield fetch('/api/bookings', {
                     method: 'POST',

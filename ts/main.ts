@@ -202,6 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!form) return;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const guestName = (document.getElementById('booking-name') as HTMLInputElement | null)?.value || 'Guest';
+      const email = (document.getElementById('booking-email') as HTMLInputElement | null)?.value || '';
+      const phone = (document.getElementById('booking-phone') as HTMLInputElement | null)?.value || '';
+      const guestCount = (document.getElementById('booking-guests') as HTMLInputElement | null)?.value || '2';
+      const bookingDate = (document.getElementById('booking-date') as HTMLInputElement | null)?.value || 'today';
+
       if (!reservationModalBody) return;
       reservationModalBody.innerHTML = `
         <div class="toast-msg" style="padding: 20px 0;">
@@ -209,12 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
           <h4>Securing your table...</h4>
           <p>Please wait a moment.</p>
         </div>`;
-
-      const guestName = (document.getElementById('booking-name') as HTMLInputElement | null)?.value || 'Guest';
-      const email = (document.getElementById('booking-email') as HTMLInputElement | null)?.value || '';
-      const phone = (document.getElementById('booking-phone') as HTMLInputElement | null)?.value || '';
-      const guestCount = (document.getElementById('booking-guests') as HTMLInputElement | null)?.value || '2';
-      const bookingDate = (document.getElementById('booking-date') as HTMLInputElement | null)?.value || 'today';
 
       try {
         const response = await fetch('/api/bookings', {
