@@ -163,142 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ----- Page Booking Form -----
-  const pageBookingForm = document.getElementById('page-booking-form') as HTMLFormElement | null;
-  if (pageBookingForm) {
-    pageBookingForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = pageBookingForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-      if (submitBtn) {
-        submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Booking...';
-        submitBtn.disabled = true;
-      }
 
-      const guestName = (document.getElementById('page-booking-name') as HTMLInputElement | null)?.value || 'Guest';
-      const email = (document.getElementById('page-booking-email') as HTMLInputElement | null)?.value || '';
-      const phone = (document.getElementById('page-booking-phone') as HTMLInputElement | null)?.value || '';
-      const date = (document.getElementById('page-booking-date') as HTMLInputElement | null)?.value || '';
-      const time = (document.getElementById('page-booking-time') as HTMLInputElement | null)?.value || '';
-      const maleCount = (document.getElementById('page-booking-male') as HTMLInputElement | null)?.value || '0';
-      const femaleCount = (document.getElementById('page-booking-female') as HTMLInputElement | null)?.value || '0';
-      const outlet = (document.getElementById('page-booking-outlet') as HTMLSelectElement | null)?.value || '';
-      const totalGuests = parseInt(maleCount) + parseInt(femaleCount);
-
-      try {
-        const response = await fetch('/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            name: guestName, 
-            email, 
-            phone, 
-            guests: totalGuests.toString(), 
-            date,
-            time,
-            remarks: `Outlet: ${outlet} | Male: ${maleCount} | Female: ${femaleCount}`
-          })
-        });
-
-        if (response.ok) {
-          if (submitBtn) {
-            submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Reserved!';
-            submitBtn.style.color = '#4CAF50';
-            submitBtn.style.borderColor = '#4CAF50';
-          }
-          pageBookingForm.reset();
-        } else {
-          throw new Error('Server error');
-        }
-      } catch (error) {
-        if (submitBtn) {
-          submitBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error';
-          submitBtn.style.color = '#ff6b6b';
-          submitBtn.style.borderColor = '#ff6b6b';
-        }
-      }
-
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.innerHTML = 'Book a Table';
-          submitBtn.disabled = false;
-          submitBtn.style.color = '';
-          submitBtn.style.borderColor = '';
-        }
-      }, 4000);
-    });
-  }
-
-  // ----- Contact Form -----
-  const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
-  if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
-      if (submitBtn) {
-        submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
-        submitBtn.disabled = true;
-      }
-      
-      // We can hook this up to an API later. For now, simulate success.
-      setTimeout(() => {
-        if (submitBtn) {
-          submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
-          submitBtn.style.color = '#4CAF50';
-          submitBtn.style.borderColor = '#4CAF50';
-        }
-        contactForm.reset();
-        
-        setTimeout(() => {
-          if (submitBtn) {
-            submitBtn.innerHTML = 'Send';
-            submitBtn.disabled = false;
-            submitBtn.style.color = '';
-            submitBtn.style.borderColor = '';
-          }
-        }, 3000);
-      }, 1000);
-    });
-  }
-
-  // ----- Newsletter Form Submission -----
-  const newsletterForm = document.getElementById('newsletter-form') as HTMLFormElement | null;
-  if (newsletterForm) {
-    newsletterForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const emailInput = newsletterForm.querySelector('input[type="email"]') as HTMLInputElement | null;
-      const subscribeBtn = newsletterForm.querySelector('button') as HTMLButtonElement | null;
-      if (!emailInput || !subscribeBtn) return;
-      const email = emailInput.value;
-      subscribeBtn.disabled = true;
-      subscribeBtn.innerText = '...';
-
-      try {
-        const response = await fetch('/api/subscribe', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        
-        if (response.ok) {
-          emailInput.value = '';
-          subscribeBtn.innerText = 'Subscribed!';
-          subscribeBtn.style.backgroundColor = 'var(--accent-gold)';
-          subscribeBtn.style.color = 'var(--bg-dark)';
-        } else {
-          subscribeBtn.innerText = 'Error';
-        }
-      } catch (err) {
-        subscribeBtn.innerText = 'Error';
-      }
-
-      setTimeout(() => {
-        subscribeBtn.disabled = false;
-        subscribeBtn.innerText = 'Subscribe';
-        subscribeBtn.style.backgroundColor = '';
-        subscribeBtn.style.color = '';
-      }, 3000);
-    });
-  }
 
   // ----- Menu Tab Switching -----
   const menuTabBtns = document.querySelectorAll('.menu-tab-btn');
@@ -365,29 +230,122 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  const forms = [
-    { id: 'page-booking-form', msg: 'Table reserved successfully! We will contact you soon.' },
-    { id: 'booking-form', msg: 'Table reserved successfully! We will contact you soon.' },
-    { id: 'contact-form', msg: 'Message sent successfully! We will get back to you.' },
-    { id: 'newsletter-form', msg: 'Successfully subscribed to our newsletter!' }
-  ];
+  const pageBookingForm = document.getElementById('page-booking-form') as HTMLFormElement | null;
+  if (pageBookingForm) {
+    pageBookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = pageBookingForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = 'Reserving...'; }
+      
+      const name = (document.getElementById('page-booking-name') as HTMLInputElement | null)?.value || '';
+      const email = (document.getElementById('page-booking-email') as HTMLInputElement | null)?.value || '';
+      const phone = (document.getElementById('page-booking-phone') as HTMLInputElement | null)?.value || '';
+      const date = (document.getElementById('page-booking-date') as HTMLInputElement | null)?.value || '';
+      const time = (document.getElementById('page-booking-time') as HTMLInputElement | null)?.value || '';
+      const maleCount = (document.getElementById('page-booking-male') as HTMLInputElement | null)?.value || '0';
+      const femaleCount = (document.getElementById('page-booking-female') as HTMLInputElement | null)?.value || '0';
+      const outlet = (document.getElementById('page-booking-outlet') as HTMLSelectElement | null)?.value || '';
+      
+      let totalGuests = parseInt(maleCount) + parseInt(femaleCount);
+      if (isNaN(totalGuests) || totalGuests <= 0) totalGuests = 1;
 
-  forms.forEach(f => {
-    const form = document.getElementById(f.id) as HTMLFormElement;
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        showToast(f.msg);
-        form.reset();
-        // If it's the modal booking form, close the modal
-        if (f.id === 'booking-form') {
-          const resModal = document.getElementById('reservation-modal');
-          if (resModal) {
-            resModal.style.display = 'none';
-          }
+      try {
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            name, email, phone, 
+            guests: totalGuests.toString(), 
+            date, time, 
+            remarks: `Outlet: ${outlet} | Male: ${maleCount} | Female: ${femaleCount}` 
+          })
+        });
+        if (res.ok) {
+          showToast('Table reserved successfully! We will contact you soon.');
+          pageBookingForm.reset();
+        } else {
+          showToast('Error sending booking request. Please try again.');
         }
-      });
-    }
-  });
+      } catch (err) {
+        showToast('Error sending booking request. Please try again.');
+      }
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
+    });
+  }
+
+  const modalBookingForm = document.getElementById('booking-form') as HTMLFormElement | null;
+  if (modalBookingForm) {
+    modalBookingForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = modalBookingForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = 'Reserving...'; }
+      
+      const name = (document.getElementById('booking-name') as HTMLInputElement | null)?.value || '';
+      const email = (document.getElementById('booking-email') as HTMLInputElement | null)?.value || '';
+      const phone = (document.getElementById('booking-phone') as HTMLInputElement | null)?.value || '';
+      const date = (document.getElementById('booking-date') as HTMLInputElement | null)?.value || '';
+      const time = (document.getElementById('booking-time') as HTMLInputElement | null)?.value || '';
+      const guests = (document.getElementById('booking-guests') as HTMLInputElement | null)?.value || '1';
+      const remarks = (document.getElementById('booking-remarks') as HTMLInputElement | null)?.value || '';
+
+      try {
+        const res = await fetch('/api/bookings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, phone, guests, date, time, remarks })
+        });
+        if (res.ok) {
+          showToast('Table reserved successfully! We will contact you soon.');
+          modalBookingForm.reset();
+          const resModal = document.getElementById('reservation-modal');
+          if (resModal) resModal.style.display = 'none';
+        } else {
+          showToast('Error sending booking request. Please try again.');
+        }
+      } catch (err) {
+        showToast('Error sending booking request. Please try again.');
+      }
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Book Now'; }
+    });
+  }
+
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showToast('Message sent successfully! We will get back to you.');
+      contactForm.reset();
+    });
+  }
+
+  const newsletterForm = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = newsletterForm.querySelector('input[type="email"]') as HTMLInputElement | null;
+      const submitBtn = newsletterForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      
+      if (!emailInput) return;
+      const email = emailInput.value;
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.innerText = '...'; }
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (res.ok) {
+          showToast('Successfully subscribed to our newsletter!');
+          newsletterForm.reset();
+        } else {
+          showToast('Error subscribing to newsletter. Please try again.');
+        }
+      } catch (err) {
+        showToast('Error subscribing to newsletter. Please try again.');
+      }
+      if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Subscribe'; }
+    });
+  }
 
 });
