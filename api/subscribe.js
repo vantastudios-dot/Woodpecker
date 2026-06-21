@@ -48,8 +48,8 @@ module.exports = async (req, res) => {
   }
 
   const { email } = req.body;
-  const ownerEmail = process.env.OWNER_EMAIL || 'hello@restaurantname.com';
-  const fromEmail = process.env.FROM_EMAIL || 'noreply@restaurantname.com';
+  const ownerEmail = process.env.OWNER_EMAIL || 'uprisingstudio25@gmail.com';
+  const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
   const appPassword = process.env.GMAIL_APP_PASSWORD;
 
   if (!email) {
