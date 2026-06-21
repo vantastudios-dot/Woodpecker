@@ -1,4 +1,4 @@
-const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 
 const wrapHtmlEmail = (content, ownerEmail) => `
 <!DOCTYPE html>
@@ -31,17 +31,14 @@ const wrapHtmlEmail = (content, ownerEmail) => `
 
 const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent) => ({
   to,
-  from: {
-    name: 'Woodpecker Bar',
-    email: fromEmail
-  },
+  from: `"Woodpecker Bar" <${fromEmail}>`,
   subject,
   text,
   html: wrapHtmlEmail(htmlContent, ownerEmail),
   headers: {
     'List-Unsubscribe': `<mailto:${ownerEmail}?subject=unsubscribe>`,
     'X-Priority': '3',
-    'X-Mailer': 'SendGrid'
+    'X-Mailer': 'Nodemailer'
   }
 });
 
@@ -53,14 +50,24 @@ module.exports = async (req, res) => {
   const { email } = req.body;
   const ownerEmail = process.env.OWNER_EMAIL || 'hello@restaurantname.com';
   const fromEmail = process.env.FROM_EMAIL || 'noreply@restaurantname.com';
+  const appPassword = process.env.GMAIL_APP_PASSWORD;
 
   if (!email) {
     return res.status(400).json({ success: false, error: 'Email is required' });
   }
 
-  if (process.env.SENDGRID_API_KEY) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  if (!appPassword || appPassword.includes('YOUR_')) {
+    console.error('GMAIL_APP_PASSWORD is missing in environment variables!');
+    return res.status(500).json({ success: false, error: 'Server configuration error: Missing App Password' });
   }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: fromEmail,
+      pass: appPassword
+    }
+  });
 
   try {
     const ownerMsg = buildMessage(
@@ -95,14 +102,9 @@ module.exports = async (req, res) => {
       `
     );
 
-    if (!process.env.SENDGRID_API_KEY || process.env.SENDGRID_API_KEY.includes('YOUR_')) {
-      console.error('SENDGRID_API_KEY is missing in environment variables!');
-      return res.status(500).json({ success: false, error: 'Server configuration error: Missing email API keys' });
-    }
-
     await Promise.all([
-      sgMail.send(ownerMsg),
-      sgMail.send(customerMsg)
+      transporter.sendMail(ownerMsg),
+      transporter.sendMail(customerMsg)
     ]);
 
     res.status(200).json({ success: true });
