@@ -29,9 +29,10 @@ const wrapHtmlEmail = (content, ownerEmail) => `
 </html>
 `;
 
-const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent) => ({
+const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent, replyToEmail = null) => ({
   to,
-  from: `"Woodpecker Bar" <${fromEmail}>`,
+  from: fromEmail,
+  replyTo: replyToEmail || fromEmail,
   subject,
   text,
   html: wrapHtmlEmail(htmlContent, ownerEmail)
@@ -84,7 +85,8 @@ module.exports = async (req, res) => {
         <p><strong>Party Size:</strong> ${guests}</p>
         <p><strong>Remarks:</strong> ${remarks || 'None'}</p>
         <p><strong>Confirmation #:</strong> ${bookingId}</p>
-      `
+      `,
+      email
     );
 
     const customerMsg = buildMessage(
