@@ -339,4 +339,41 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+    // ----- Form Submissions & Toast -----
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+    let toastTimeout;
+    function showToast(message) {
+        if (!toast || !toastMsg)
+            return;
+        toastMsg.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+    const forms = [
+        { id: 'page-booking-form', msg: 'Table reserved successfully! We will contact you soon.' },
+        { id: 'booking-form', msg: 'Table reserved successfully! We will contact you soon.' },
+        { id: 'contact-form', msg: 'Message sent successfully! We will get back to you.' },
+        { id: 'newsletter-form', msg: 'Successfully subscribed to our newsletter!' }
+    ];
+    forms.forEach(f => {
+        const form = document.getElementById(f.id);
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                showToast(f.msg);
+                form.reset();
+                // If it's the modal booking form, close the modal
+                if (f.id === 'booking-form') {
+                    const resModal = document.getElementById('reservation-modal');
+                    if (resModal) {
+                        resModal.style.display = 'none';
+                    }
+                }
+            });
+        }
+    });
 });

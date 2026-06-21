@@ -1773,3 +1773,37 @@ footer {
   .next-btn { right: -10px; }
   .menu-col { width: 90vw; }
 }
+
+/* ═══════════════════ TOAST NOTIFICATION ═══════════════════ */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: -350px;
+  width: 300px;
+  background-color: var(--bg-dark-card);
+  color: var(--text-white);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: 4px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  z-index: 10000;
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  font-family: var(--font-sans);
+}
+
+.toast.show {
+  right: 30px;
+}
+
+.toast-icon {
+  color: var(--accent-gold);
+  font-size: 20px;
+}
+
+.toast-msg {
+  font-size: 15px;
+  font-weight: 500;
+}
