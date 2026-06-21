@@ -1,13 +1,14 @@
 /* 
-   Lord of the Drinks - Clone Stylesheet
+   Woodpecker Stylesheet
+   Created: 2026-06-20
    Design Aesthetic: Dark slate background, gold accents, premium typography, smooth transitions.
 */
 
 :root {
   /* Colors */
-  --bg-dark: #0d1012;
-  --bg-dark-card: #141a1e;
-  --bg-dark-nav: rgba(13, 16, 18, 0.97);
+  --bg-dark: #2b3036;
+  --bg-dark-card: #353a40;
+  --bg-dark-nav: rgba(43, 48, 54, 0.97);
   --bg-light: #f5f4f0;
   --bg-light-card: #ffffff;
   --accent-gold: #c8974a;
@@ -1623,4 +1624,152 @@ footer {
   .header-top .btn-outline-gold {
     display: none; /* Hide call on super small screens in header top */
   }
+}
+
+/* NEW RESPONSIVE OVERRIDES FOR INLINE GRIDS */
+@media (max-width: 900px) {
+  .about-grid,
+  .reservation-grid,
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+  }
+  
+  .about-img {
+    order: -1 !important; /* Put image on top for mobile */
+  }
+  
+  footer .footer-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+  }
+  
+  footer .footer-grid > div {
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 30px;
+    text-align: center !important;
+  }
+  
+  footer .social-links,
+  footer .footer-grid h3 {
+    justify-content: center !important;
+    text-align: center !important;
+    margin: 0 auto 15px auto !important;
+  }
+  
+  .contact-info-box, .contact-form-box {
+    padding: 20px !important;
+  }
+}
+/* ═══════════════════ MENU STYLES ═══════════════════ */
+.menu-section {
+  color: #fff;
+}
+.menu-tab-btn:hover {
+  color: #fff !important;
+  border-bottom: 2px solid #fff !important;
+}
+.menu-tab-btn.active {
+  color: #e0b976 !important;
+  border-bottom: 2px solid #e0b976 !important;
+}
+.menu-item {
+  margin-bottom: 12px;
+}
+.mi-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  position: relative;
+}
+.mi-top::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 5px;
+  border-bottom: 1px dotted rgba(255,255,255,0.2);
+  z-index: 1;
+}
+.mi-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fdfdfd;
+  background: #111315;
+  padding-right: 10px;
+  z-index: 2;
+  text-transform: uppercase;
+}
+.mi-price {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 16px;
+  color: #e0b976;
+  background: #111315;
+  padding-left: 10px;
+  z-index: 2;
+}
+.mi-desc {
+  font-size: 12px;
+  color: #999;
+  font-family: 'Josefin Sans', sans-serif;
+  margin-top: 2px;
+  margin-bottom: 0;
+}
+
+/* ═══════════════════ MENU CAROUSEL ═══════════════════ */
+.menu-grid {
+  display: flex !important;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  gap: 40px;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+.menu-grid::-webkit-scrollbar {
+  display: none;
+}
+.menu-col {
+  flex: 0 0 auto;
+  width: 85vw;
+  max-width: 380px;
+  scroll-snap-align: start;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(17, 19, 21, 0.8);
+  border: 1px solid #c8974a;
+  color: #c8974a;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: 0.3s ease;
+  font-size: 16px;
+}
+.carousel-btn:hover {
+  background: #c8974a;
+  color: #111315;
+}
+.prev-btn {
+  left: -20px;
+}
+.next-btn {
+  right: -20px;
+}
+
+@media (max-width: 768px) {
+  .prev-btn { left: -10px; }
+  .next-btn { right: -10px; }
+  .menu-col { width: 90vw; }
 }

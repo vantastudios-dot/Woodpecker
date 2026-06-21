@@ -163,60 +163,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ----- Booking/Reservation Modal -----
-  const reservationModal = document.getElementById('reservation-modal') as HTMLElement | null;
-  const reservationClose = document.getElementById('reservation-close') as HTMLElement | null;
-  const openBookingBtns = document.querySelectorAll<HTMLElement>('.open-booking-btn');
-  const reservationModalBody = document.getElementById('reservation-modal-body') as HTMLElement | null;
-  const originalModalBodyHTML = reservationModalBody?.innerHTML ?? '';
-
-  const openReservationModal = () => {
-    if (reservationModalBody) reservationModalBody.innerHTML = originalModalBodyHTML;
-    reAttachFormListener();
-    if (reservationModal) {
-      reservationModal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-  };
-
-  const closeReservationModal = () => {
-    if (reservationModal) reservationModal.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  openBookingBtns.forEach(btn => {
-    btn.addEventListener('click', openReservationModal);
-  });
-
-  if (reservationClose) {
-    reservationClose.addEventListener('click', closeReservationModal);
-  }
-  if (reservationModal) {
-    reservationModal.addEventListener('click', (e) => {
-      if (e.target === reservationModal) closeReservationModal();
-    });
-  }
-
-  const reAttachFormListener = () => {
-    const form = document.getElementById('booking-form') as HTMLFormElement | null;
-    if (!form) return;
-    form.addEventListener('submit', async (e) => {
+  // ----- Page Booking Form -----
+  const pageBookingForm = document.getElementById('page-booking-form') as HTMLFormElement | null;
+  if (pageBookingForm) {
+    pageBookingForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const guestName = (document.getElementById('booking-name') as HTMLInputElement | null)?.value || 'Guest';
-      const email = (document.getElementById('booking-email') as HTMLInputElement | null)?.value || '';
-      const phone = (document.getElementById('booking-phone') as HTMLInputElement | null)?.value || '';
-      const guestCount = (document.getElementById('booking-guests') as HTMLInputElement | null)?.value || '2';
-      const bookingDate = (document.getElementById('booking-date') as HTMLInputElement | null)?.value || 'today';
-      const bookingTime = (document.getElementById('booking-time') as HTMLInputElement | null)?.value || '19:00';
-      const bookingRemarks = (document.getElementById('booking-remarks') as HTMLTextAreaElement | null)?.value || 'None';
+      const submitBtn = pageBookingForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Booking...';
+        submitBtn.disabled = true;
+      }
 
-      if (!reservationModalBody) return;
-      reservationModalBody.innerHTML = `
-        <div class="toast-msg" style="padding: 20px 0;">
-          <i class="fa-solid fa-circle-notch fa-spin"></i>
-          <h4>Securing your table...</h4>
-          <p>Please wait a moment.</p>
-        </div>`;
+      const guestName = (document.getElementById('page-booking-name') as HTMLInputElement | null)?.value || 'Guest';
+      const email = (document.getElementById('page-booking-email') as HTMLInputElement | null)?.value || '';
+      const phone = (document.getElementById('page-booking-phone') as HTMLInputElement | null)?.value || '';
+      const date = (document.getElementById('page-booking-date') as HTMLInputElement | null)?.value || '';
+      const time = (document.getElementById('page-booking-time') as HTMLInputElement | null)?.value || '';
+      const maleCount = (document.getElementById('page-booking-male') as HTMLInputElement | null)?.value || '0';
+      const femaleCount = (document.getElementById('page-booking-female') as HTMLInputElement | null)?.value || '0';
+      const outlet = (document.getElementById('page-booking-outlet') as HTMLSelectElement | null)?.value || '';
+      const totalGuests = parseInt(maleCount) + parseInt(femaleCount);
 
       try {
         const response = await fetch('/api/bookings', {
@@ -226,51 +192,73 @@ document.addEventListener('DOMContentLoaded', () => {
             name: guestName, 
             email, 
             phone, 
-            guests: guestCount, 
-            date: bookingDate,
-            time: bookingTime,
-            remarks: bookingRemarks
+            guests: totalGuests.toString(), 
+            date,
+            time,
+            remarks: `Outlet: ${outlet} | Male: ${maleCount} | Female: ${femaleCount}`
           })
         });
-        const result = await response.json();
 
-        // Trigger Google Analytics Event
-        if (typeof (window as any).gtag === 'function') {
-          (window as any).gtag('event', 'generate_lead', {
-            event_category: 'booking',
-            event_label: 'Table Reservation',
-            value: parseInt(guestCount, 10)
-          });
-        }
-
-        if (reservationModalBody) {
-          reservationModalBody.innerHTML = `
-            <div class="toast-msg" style="padding: 20px 0; animation: fadeIn 0.5s ease forwards;">
-              <i class="fa-solid fa-circle-check"></i>
-              <h4 style="color: var(--accent-gold);">Table Reserved!</h4>
-              <p style="margin-top: 10px;">Thank you, <strong>${guestName}</strong>. Your table for <strong>${guestCount}</strong> guests is reserved for <strong>${bookingDate}</strong>.</p>
-              <p style="font-size: 12px; margin-top: 15px; opacity: 0.7;">Confirmation sent to ${email}</p>
-            </div>`;
+        if (response.ok) {
+          if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Reserved!';
+            submitBtn.style.color = '#4CAF50';
+            submitBtn.style.borderColor = '#4CAF50';
+          }
+          pageBookingForm.reset();
+        } else {
+          throw new Error('Server error');
         }
       } catch (error) {
-        if (reservationModalBody) {
-          reservationModalBody.innerHTML = `
-            <div class="toast-msg" style="padding: 20px 0; animation: fadeIn 0.5s ease forwards;">
-              <i class="fa-solid fa-triangle-exclamation" style="color: #ff6b6b;"></i>
-              <h4 style="color: #ff6b6b;">Booking Error</h4>
-              <p style="margin-top: 10px;">Sorry, we couldn't process your booking right now. Please call us instead.</p>
-            </div>`;
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Error';
+          submitBtn.style.color = '#ff6b6b';
+          submitBtn.style.borderColor = '#ff6b6b';
         }
       }
 
       setTimeout(() => {
-        closeReservationModal();
+        if (submitBtn) {
+          submitBtn.innerHTML = 'Book a Table';
+          submitBtn.disabled = false;
+          submitBtn.style.color = '';
+          submitBtn.style.borderColor = '';
+        }
       }, 4000);
     });
-  };
+  }
 
-  // Initial attach
-  reAttachFormListener();
+  // ----- Contact Form -----
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = contactForm.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      if (submitBtn) {
+        submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+      }
+      
+      // We can hook this up to an API later. For now, simulate success.
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
+          submitBtn.style.color = '#4CAF50';
+          submitBtn.style.borderColor = '#4CAF50';
+        }
+        contactForm.reset();
+        
+        setTimeout(() => {
+          if (submitBtn) {
+            submitBtn.innerHTML = 'Send';
+            submitBtn.disabled = false;
+            submitBtn.style.color = '';
+            submitBtn.style.borderColor = '';
+          }
+        }, 3000);
+      }, 1000);
+    });
+  }
 
   // ----- Newsletter Form Submission -----
   const newsletterForm = document.getElementById('newsletter-form') as HTMLFormElement | null;
@@ -311,4 +299,56 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 3000);
     });
   }
+
+  // ----- Menu Tab Switching -----
+  const menuTabBtns = document.querySelectorAll('.menu-tab-btn');
+  const menuContents = document.querySelectorAll('.menu-content');
+
+  menuTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active from all
+      menuTabBtns.forEach(b => {
+        b.classList.remove('active');
+        (b as HTMLElement).style.color = '#666';
+        (b as HTMLElement).style.borderBottomColor = 'transparent';
+      });
+      menuContents.forEach(c => {
+        (c as HTMLElement).style.display = 'none';
+        c.classList.remove('active');
+      });
+
+      // Add active to clicked
+      btn.classList.add('active');
+      (btn as HTMLElement).style.color = '#e0b976';
+      (btn as HTMLElement).style.borderBottomColor = '#e0b976';
+      
+      const targetId = btn.getAttribute('data-target');
+      if (targetId) {
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+          targetContent.style.display = 'block';
+          // Small timeout to allow display:block to apply before adding class for animation if any
+          setTimeout(() => targetContent.classList.add('active'), 10);
+        }
+      }
+    });
+  });
+
+  // ----- Menu Carousel -----
+  const menuContentsList = document.querySelectorAll('.menu-content');
+  menuContentsList.forEach(content => {
+    const prevBtn = content.querySelector('.prev-btn');
+    const nextBtn = content.querySelector('.next-btn');
+    const grid = content.querySelector('.menu-grid');
+
+    if (prevBtn && nextBtn && grid) {
+      prevBtn.addEventListener('click', () => {
+        grid.scrollBy({ left: -350, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', () => {
+        grid.scrollBy({ left: 350, behavior: 'smooth' });
+      });
+    }
+  });
+
 });
