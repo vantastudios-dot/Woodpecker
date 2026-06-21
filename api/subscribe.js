@@ -95,12 +95,15 @@ module.exports = async (req, res) => {
       `
     );
 
-    if (process.env.SENDGRID_API_KEY && process.env.SENDGRID_API_KEY !== 'YOUR_SENDGRID_API_KEY' && !process.env.SENDGRID_API_KEY.includes('YOUR_')) {
-      await Promise.all([
-        sgMail.send(ownerMsg),
-        sgMail.send(customerMsg)
-      ]);
+    if (!process.env.SENDGRID_API_KEY || process.env.SENDGRID_API_KEY.includes('YOUR_')) {
+      console.error('SENDGRID_API_KEY is missing in environment variables!');
+      return res.status(500).json({ success: false, error: 'Server configuration error: Missing email API keys' });
     }
+
+    await Promise.all([
+      sgMail.send(ownerMsg),
+      sgMail.send(customerMsg)
+    ]);
 
     res.status(200).json({ success: true });
   } catch (error) {
