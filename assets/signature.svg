@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="100%" height="80">
+  <path d="M 30 60 C 50 30, 60 20, 80 50 C 90 70, 75 85, 95 65 C 110 50, 100 35, 120 55 C 130 65, 125 70, 140 50 C 150 30, 160 30, 175 60 C 185 75, 170 80, 190 70 C 200 60, 210 55, 220 70 M 240 40 C 255 25, 260 25, 270 45 C 275 55, 270 65, 280 55 C 290 45, 295 45, 305 60 C 310 65, 315 65, 320 55 C 330 35, 340 35, 350 60 C 355 70, 365 75, 380 65" 
+        fill="none" 
+        stroke="#12161a" 
+        stroke-width="2.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" />
+  <path d="M 60 55 L 340 58" 
+        fill="none" 
+        stroke="#12161a" 
+        stroke-width="1.5" 
+        stroke-linecap="round" 
+        opacity="0.7" />
+</svg>

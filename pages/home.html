@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Woodpecker | Home</title>
+  <meta name="description" content="Woodpecker – Sophisticated bar with a warm ambiance offering an all‑day menu, terrace seating & nightly shows. Located at Hotel Charans Plaza, Hazratganj, Lucknow.">
+  <link rel="icon" type="image/jpeg" href="../assets/images/unnamed.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,700;1,700&family=Josefin+Sans:wght@100;300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <!-- Header & Navigation (shared) -->
+  <header id="header">
+    <div class="header-top">
+      <a href="tel:+919936438000" class="btn-outline-gold"><i class="fa-solid fa-phone"></i> Call – +91 99364 38000</a>
+      <div class="logo-box">
+        <a href="home.html"><h1>WOOD<span>PECKER</span>BAR</h1></a>
+      </div>
+      <a href="https://www.instagram.com/woodpecker.hotelcharansplaza" target="_blank" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <button class="btn-solid-gold open-booking-btn">Reserve a Table</button>
+    </div>
+    <div class="header-bottom">
+      <button class="mobile-nav-toggle" id="mobile-toggle" aria-label="Toggle navigation"><i class="fa-solid fa-bars"></i></button>
+      <nav class="nav-container" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="home.html" class="active">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="offerings.html">What We Offer</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-tag">Est. Hazratganj, Lucknow</span>
+      <h2 class="hero-title">Where Every Night<br>Tells a Story</h2>
+      <p class="hero-sub">Sophisticated bar · Terrace seating · Nightly shows · All‑day menu</p>
+      <div class="hero-btns">
+        <button class="btn-solid-gold open-booking-btn">Reserve a Table</button>
+        <a href="gallery.html" class="btn-outline-gold">Explore Gallery</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (shared) -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-column">
+          <h3 class="col-title">Contact</h3>
+          <p class="footer-address">Level Zero, Hotel Charans Plaza, 11, Habibullah Estate Rd, Hazratganj, Lucknow, Uttar Pradesh 226001</p>
+          <p class="footer-phone"><span>Call –</span> +91 99364 38000</p>
+        </div>
+        <div class="footer-column center-col">
+          <div class="logo-box"><h1>WOOD<span>PECKER</span>BAR</h1></div>
+          <p class="newsletter-text">Join our mailing list for updates, offers &amp; event news.</p>
+          <form class="subscribe-form" id="newsletter-form">
+            <input type="email" placeholder="Enter Your Email" required aria-label="Email address for subscription">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+        <div class="footer-column right-col">
+          <div style="align-self: flex-end; display: flex; flex-direction: column; width: 100%; max-width: 320px;">
+            <div class="social-links" style="justify-content: flex-end; width: 100%;">
+              <a href="https://www.instagram.com/woodpecker.hotelcharansplaza" target="_blank" aria-label="Instagram Link"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#contact" aria-label="Facebook Link"><i class="fa-solid fa-f"></i></a>
+            </div>
+            <h3 class="col-title" style="align-self: flex-start;">Timing</h3>
+            <div class="timing-row"><span class="timing-days">Mon – Fri:</span><span class="timing-hours">12:00 PM – 1:00 AM</span></div>
+            <div class="timing-row"><span class="timing-days">Sat – Sun:</span><span class="timing-hours">12:00 PM – 1:00 AM</span></div>
+            <div class="timing-row" style="margin-top:8px;"><span class="timing-days">Price Range:</span><span class="timing-hours">₹400 – ₹1,400 / person</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright © 2026 Woodpecker Bar &amp; Lounge | All Rights Reserved</p>
+        <div class="footer-bottom-links"><a href="#contact">Terms &amp; Conditions</a><a href="#contact">Privacy Policy</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" class="modal"><span class="modal-close" id="lightbox-close">&times;</span><div class="lightbox-content"><img id="lightbox-img" src="" alt="Expanded View"></div></div>
+
+  <!-- Reservation Form Modal -->
+  <div id="reservation-modal" class="modal"><span class="modal-close" id="reservation-close">&times;</span><div class="reservation-modal-content" id="reservation-modal-body">
+    <h3>Book A Table</h3>
+    <form id="booking-form">
+      <div class="form-group"><label for="booking-name">Full Name</label><input type="text" id="booking-name" class="form-control" placeholder="Enter your name" required></div>
+      <div class="form-group"><label for="booking-phone">Phone Number</label><input type="tel" id="booking-phone" class="form-control" placeholder="Enter your phone number" required></div>
+      <div class="form-group"><label for="booking-date">Date</label><input type="date" id="booking-date" class="form-control" required></div>
+      <div class="form-group"><label for="booking-guests">Number of Guests</label><input type="number" id="booking-guests" class="form-control" min="1" max="20" placeholder="Number of guests" required></div>
+      <button type="submit" class="btn-solid-gold" style="width:100%;margin-top:10px;">Book Now</button>
+    </form>
+  </div></div>
+
+  <script src="../main.js"></script>
+</body>
+</html>
