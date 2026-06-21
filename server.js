@@ -1,5 +1,26 @@
+const express = require('express');
+const cors = require('cors');
 const nodemailer = require('nodemailer');
+const path = require('path');
+const dotenv = require('dotenv');
 
+// Load environment variables
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 8085;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '')));
+
+// Generate unique booking ID
+const generateBookingId = () => {
+  return `BOOK-${Math.floor(10000 + Math.random() * 90000)}`;
+};
+
+// Reusable email wrapper for professional HTML formatting
 const wrapHtmlEmail = (content, ownerEmail) => `
 <!DOCTYPE html>
 <html lang="en">
@@ -37,37 +58,36 @@ const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent) => 
   html: wrapHtmlEmail(htmlContent, ownerEmail)
 });
 
-const generateBookingId = () => {
-  return `BOOK-${Math.floor(10000 + Math.random() * 90000)}`;
-};
-
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-  }
-
-  const { name, phone, date, time, guests, remarks } = req.body;
-  const email = req.body.email || 'customer@example.com';
-  const bookingId = generateBookingId();
-  
-  const ownerEmail = process.env.OWNER_EMAIL || 'uprisingstudio25@gmail.com';
+// Helper for Nodemailer transport
+const getTransporter = () => {
   const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
   const appPassword = process.env.GMAIL_APP_PASSWORD;
-
+  
   if (!appPassword || appPassword.includes('YOUR_')) {
-    console.error('GMAIL_APP_PASSWORD is missing in environment variables!');
-    return res.status(500).json({ success: false, error: 'Server configuration error: Missing App Password' });
+    throw new Error('Missing GMAIL_APP_PASSWORD');
   }
 
-  const transporter = nodemailer.createTransport({
+  return nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: fromEmail,
       pass: appPassword
     }
   });
+};
+
+// API Route for bookings
+app.post('/api/bookings', async (req, res) => {
+  const { name, phone, date, time, guests, remarks } = req.body;
+  const email = req.body.email || 'customer@example.com';
+  const bookingId = generateBookingId();
+  
+  const ownerEmail = process.env.OWNER_EMAIL || 'uprisingstudio25@gmail.com';
+  const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
 
   try {
+    const transporter = getTransporter();
+
     const ownerMsg = buildMessage(
       ownerEmail,
       fromEmail,
@@ -115,9 +135,77 @@ module.exports = async (req, res) => {
       transporter.sendMail(customerMsg)
     ]);
 
+    console.log('Local Express Server: Booking emails sent successfully via Nodemailer');
     res.status(200).json({ success: true, bookingId });
   } catch (error) {
-    console.error('Error sending emails:', error);
+    console.error('Error sending emails locally:', error);
     res.status(500).json({ success: false, error: 'Failed to send confirmation emails' });
   }
-};
+});
+
+// API Route for newsletter subscription
+app.post('/api/subscribe', async (req, res) => {
+  const { email } = req.body;
+  const ownerEmail = process.env.OWNER_EMAIL || 'uprisingstudio25@gmail.com';
+  const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
+
+  if (!email) {
+    return res.status(400).json({ success: false, error: 'Email is required' });
+  }
+
+  try {
+    const transporter = getTransporter();
+
+    const ownerMsg = buildMessage(
+      ownerEmail,
+      fromEmail,
+      ownerEmail,
+      `New Newsletter Subscriber`,
+      `New subscriber: ${email}`,
+      `
+        <h2 style="color: #c8974a; margin-top: 0;">NEW SUBSCRIBER</h2>
+        <p>You have a new subscriber to your mailing list:</p>
+        <div style="background-color: #fbf8f1; border-left: 4px solid #c8974a; padding: 15px; margin: 20px 0;">
+          <p style="margin: 0;"><strong>Email:</strong> ${email}</p>
+        </div>
+      `
+    );
+
+    const customerMsg = buildMessage(
+      email,
+      fromEmail,
+      ownerEmail,
+      `Welcome to Woodpecker Bar & Lounge!`,
+      `Hi there,\nThank you for subscribing to our newsletter! You'll be the first to know about our upcoming events, exclusive offers, and new menu items.\nCheers,\nThe Woodpecker Team`,
+      `
+        <h2 style="color: #c8974a; margin-top: 0; text-align: center;">WELCOME TO WOODPECKER</h2>
+        <p>Hi there,</p>
+        <p>Thank you for joining our exclusive mailing list!</p>
+        <p>You'll be the first to hear about our special events, live music lineups, exclusive offers, and seasonal menus.</p>
+        <br/>
+        <p>Cheers,</p>
+        <p><strong>The Woodpecker Team</strong></p>
+      `
+    );
+
+    await Promise.all([
+      transporter.sendMail(ownerMsg),
+      transporter.sendMail(customerMsg)
+    ]);
+
+    console.log('Local Express Server: Newsletter emails sent successfully via Nodemailer');
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error sending newsletter emails locally:', error);
+    res.status(500).json({ success: false, error: 'Failed to subscribe' });
+  }
+});
+
+// For any other route, serve index.html (SPA fallback)
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

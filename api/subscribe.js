@@ -34,12 +34,7 @@ const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent) => 
   from: `"Woodpecker Bar" <${fromEmail}>`,
   subject,
   text,
-  html: wrapHtmlEmail(htmlContent, ownerEmail),
-  headers: {
-    'List-Unsubscribe': `<mailto:${ownerEmail}?subject=unsubscribe>`,
-    'X-Priority': '3',
-    'X-Mailer': 'Nodemailer'
-  }
+  html: wrapHtmlEmail(htmlContent, ownerEmail)
 });
 
 module.exports = async (req, res) => {
