@@ -61,18 +61,18 @@ const buildMessage = (to, fromEmail, ownerEmail, subject, text, htmlContent, rep
 
 // Helper for Nodemailer transport
 const getTransporter = () => {
-  const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
-  const appPassword = process.env.GMAIL_APP_PASSWORD;
+  const sendgridKey = process.env.SENDGRID_API_KEY;
   
-  if (!appPassword || appPassword.includes('YOUR_')) {
-    throw new Error('Missing GMAIL_APP_PASSWORD');
+  if (!sendgridKey) {
+    throw new Error('Missing SENDGRID_API_KEY');
   }
 
   return nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.sendgrid.net',
+    port: 587,
     auth: {
-      user: fromEmail,
-      pass: appPassword
+      user: 'apikey',
+      pass: sendgridKey
     }
   });
 };

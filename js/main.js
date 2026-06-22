@@ -113,7 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 lightboxImg.src = '';
         }, 300);
     }
-    galleryItems.forEach(item => {
+    const carouselSlides = document.querySelectorAll('.carousel-slide');
+    carouselSlides.forEach(item => {
         item.addEventListener('click', () => {
             const img = item.querySelector('img');
             if (img)
