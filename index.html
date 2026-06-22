@@ -556,82 +556,46 @@
   </section>
 
   <!-- ═══════════════════ GALLERY ═══════════════════ -->
-  <section class="gallery section-padding" id="gallery">
+  <section class="gallery section-padding" id="gallery" style="overflow: hidden;">
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Gallery</span>
         <h2 class="section-title">A Glimpse Inside</h2>
       </div>
+    </div>
 
-      <div class="gallery-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="ambience">Ambience</button>
-        <button class="filter-btn" data-filter="food">Food</button>
-        <button class="filter-btn" data-filter="drinks">Drinks</button>
+    <!-- Dual Infinite Carousel -->
+    <div class="gallery-carousel-wrapper" style="margin-top: 40px; margin-bottom: 20px;">
+      <div class="carousel-track track-left">
+        <!-- Duplicated set 1 -->
+        <div class="carousel-slide"><img src="assets/images/gallery_ambience.jpg" alt="Ambience" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc1.png" alt="Interior" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc2.png" alt="Terrace" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc3.png" alt="Bar" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc4.png" alt="Dining" loading="lazy" decoding="async"></div>
+        <!-- Duplicated set 2 -->
+        <div class="carousel-slide"><img src="assets/images/gallery_ambience.jpg" alt="Ambience" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc1.png" alt="Interior" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc2.png" alt="Terrace" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc3.png" alt="Bar" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc4.png" alt="Dining" loading="lazy" decoding="async"></div>
       </div>
+    </div>
 
-      <div class="gallery-grid">
-        <!-- Ambience -->
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/gallery_ambience.jpg" alt="Woodpecker Ambience" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>The Vibe</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc1.png" alt="Interior Lighting" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Warm Glow</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc2.png" alt="Terrace Seating" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Terrace Night</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc3.png" alt="Bar Counter" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>The Bar</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc4.png" alt="Outdoor Dining" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Al Fresco</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc5.png" alt="Fire Pit Terrace" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Fire Pit</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/sc6.png" alt="Evening Ambience" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Evening Magic</h3><p>Ambience</p></div>
-        </div>
-        <div class="gallery-item" data-category="ambience">
-          <img src="assets/images/about_interior.jpg" alt="Interior Design" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Interiors</h3><p>Ambience</p></div>
-        </div>
-
-        <!-- Food -->
-        <div class="gallery-item" data-category="food">
-          <img src="assets/images/gallery_food.jpg" alt="Woodpecker Food" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Gourmet Plates</h3><p>Food</p></div>
-        </div>
-        <div class="gallery-item" data-category="food">
-          <img src="assets/images/blog_food.jpg" alt="Fine Dining" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Chef's Special</h3><p>Food</p></div>
-        </div>
-        <div class="gallery-item" data-category="food">
-          <img src="assets/images/Screenshot_20-6-2026_22386_www.zomato.com.jpg" alt="Food Platter" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Feast Mode</h3><p>Food</p></div>
-        </div>
-
-        <!-- Drinks -->
-        <div class="gallery-item" data-category="drinks">
-          <img src="assets/images/gallery_drinks.jpg" alt="Woodpecker Drinks" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Signature Sips</h3><p>Drinks</p></div>
-        </div>
-        <div class="gallery-item" data-category="drinks">
-          <img src="assets/images/blog_drinks.jpg" alt="Craft Cocktails" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Craft Cocktails</h3><p>Drinks</p></div>
-        </div>
-        <div class="gallery-item" data-category="drinks">
-          <img src="assets/images/Screenshot_20-6-2026_223518_www.zomato.com.jpg" alt="Bar Drinks" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><h3>Bar Selection</h3><p>Drinks</p></div>
-        </div>
+    <div class="gallery-carousel-wrapper" style="margin-bottom: 40px;">
+      <div class="carousel-track track-right">
+        <!-- Duplicated set 1 -->
+        <div class="carousel-slide"><img src="assets/images/gallery_food.jpg" alt="Food" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/gallery_drinks.jpg" alt="Drinks" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc5.png" alt="Fire Pit" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc6.png" alt="Evening" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/blog_food.jpg" alt="Cuisine" loading="lazy" decoding="async"></div>
+        <!-- Duplicated set 2 -->
+        <div class="carousel-slide"><img src="assets/images/gallery_food.jpg" alt="Food" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/gallery_drinks.jpg" alt="Drinks" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc5.png" alt="Fire Pit" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/sc6.png" alt="Evening" loading="lazy" decoding="async"></div>
+        <div class="carousel-slide"><img src="assets/images/blog_food.jpg" alt="Cuisine" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </section>

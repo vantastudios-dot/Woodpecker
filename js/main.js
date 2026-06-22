@@ -89,33 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    // ----- Gallery Filtering -----
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const filterValue = btn.getAttribute('data-filter');
-            galleryItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (filterValue === 'all' || category === filterValue) {
-                    item.style.display = 'block';
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
-                }
-                else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300);
-                }
-            });
-        });
-    });
+
     // ----- Image Lightbox Modal -----
     const lightboxModal = document.getElementById('lightbox-modal');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -331,8 +305,42 @@ document.addEventListener('DOMContentLoaded', () => {
     if (contactForm) {
         contactForm.addEventListener('submit', (e) => __awaiter(this, void 0, void 0, function* () {
             e.preventDefault();
-            showToast('Message sent successfully! We will get back to you.');
-            contactForm.reset();
+            const inputs = contactForm.querySelectorAll('input, textarea');
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            
+            const name = inputs[0].value;
+            const email = inputs[1].value;
+            const phone = inputs[2].value;
+            const message = inputs[3].value;
+
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Sending...';
+            }
+
+            try {
+                const res = yield fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, message })
+                });
+
+                if (res.ok) {
+                    showToast('Message sent successfully! We will get back to you.');
+                    contactForm.reset();
+                } else {
+                    const data = yield res.json().catch(() => ({}));
+                    const errMsg = data.error || `HTTP Error: ${res.status}`;
+                    showToast(`Error: ${errMsg}`, true);
+                }
+            } catch (err) {
+                showToast(`Error: ${err.message || 'Connection failed'}`, true);
+            }
+
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Send';
+            }
         }));
     }
     const newsletterForm = document.getElementById('newsletter-form');

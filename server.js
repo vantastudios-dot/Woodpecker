@@ -203,6 +203,66 @@ app.post('/api/subscribe', async (req, res) => {
   }
 });
 
+// API Route for contact form
+app.post('/api/contact', async (req, res) => {
+  const { name, email, phone, message } = req.body;
+  const ownerEmail = process.env.OWNER_EMAIL || 'uprisingstudio25@gmail.com';
+  const fromEmail = process.env.FROM_EMAIL || 'uprisingstudio25@gmail.com';
+
+  if (!name || !email || !message) {
+    return res.status(400).json({ success: false, error: 'Name, email, and message are required' });
+  }
+
+  try {
+    const transporter = getTransporter();
+
+    const ownerMsg = buildMessage(
+      ownerEmail,
+      fromEmail,
+      ownerEmail,
+      `New Contact Inquiry from ${name}`,
+      `New message from ${name} (${email}, ${phone}):\n\n${message}`,
+      `
+        <h2 style="color: #c8974a; margin-top: 0;">NEW CONTACT INQUIRY</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+        <div style="background-color: #fbf8f1; border-left: 4px solid #c8974a; padding: 15px; margin: 20px 0;">
+          <p style="margin: 0;"><strong>Message:</strong><br>${message.replace(/\\n/g, '<br>')}</p>
+        </div>
+      `,
+      email
+    );
+
+    const customerMsg = buildMessage(
+      email,
+      fromEmail,
+      ownerEmail,
+      `We've received your message`,
+      `Hi ${name},\nThanks for reaching out! We have received your message and will get back to you shortly.\n\nCheers,\nThe Woodpecker Team`,
+      `
+        <h2 style="color: #c8974a; margin-top: 0; text-align: center;">MESSAGE RECEIVED</h2>
+        <p>Hi <strong>${name}</strong>,</p>
+        <p>Thanks for getting in touch! We have received your message and one of our team members will get back to you as soon as possible.</p>
+        <br/>
+        <p>Cheers,</p>
+        <p><strong>The Woodpecker Team</strong></p>
+      `
+    );
+
+    await Promise.all([
+      transporter.sendMail(ownerMsg),
+      transporter.sendMail(customerMsg)
+    ]);
+
+    console.log('Local Express Server: Contact emails sent successfully via Nodemailer');
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error sending contact emails locally:', error);
+    res.status(500).json({ success: false, error: 'Failed to send contact emails' });
+  }
+});
+
 // For any other route, serve index.html (SPA fallback)
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
